@@ -1,6 +1,4 @@
 import pygame
-from pygame.locals import *
-import sys
 import ui, game
 pygame.init()
 
@@ -13,16 +11,14 @@ def update(dt):
     # TODO: update logic stuff
     pass
 
-
 # main loop
 while True:
     dt = clock.tick(60) / 1000
     # print(fps_counter)
     game.Controls()
 
-
     update(dt)
 
-    ui.screen.fill(ui.RGB.white)
+    ui.screen.fill(ui.RGB.white)  # redundant fill just incase ui doesnt change background fill of screen colour
     ui.render(ui.screen)
     pygame.display.flip()

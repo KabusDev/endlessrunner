@@ -1,7 +1,7 @@
 import pygame
 
 class ScrRes:
-    def __init__(self,x,y):
+    def __init__(self, x, y):
         self.x = x
         self.y = y
 
@@ -16,13 +16,12 @@ sxga = ScrRes(1280, 1024)
 
 res_x = svga.x
 res_y = svga.y
-res_var = res_x, res_y
+res_var = (res_x, res_y)
 
-resolution = (res_var) # this will change in settings
+resolution = res_var # this will change in settings
 
 # have checks for certain scales on existing assets and change them;
 # to higher res assets if certain resolutions make them look low quality?
-
 
 screen = pygame.display.set_mode(resolution)
 
@@ -41,9 +40,8 @@ def render(screen):
     if menu_check is True:
         pygame.draw.rect(screen, RGB.blue, (0, 0, 20, 20))
     if menu_check is False:
-        pygame.draw.rect(screen, RGB.black, (0,0,40,40))
+        pygame.draw.rect(screen, RGB.black, (0, 0, 40, 40))
         # this is how i will switch from a menu to the game
         # menu doesnt have to be a thing, more of a test of capabilities than a specification
     pass
-
 
