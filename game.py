@@ -1,7 +1,22 @@
 import pygame, sys
-import objects
+import ui
 
+class Player(pygame.sprite.Sprite):
+    # pygame.sprite.Sprite is a class type for visible objects in pygame.
+    def __init__(self):
+        super().__init__()
 
+        x = 50
+        y = 50
+        self.image = pygame.Surface([x, y])
+        self.image.fill(ui.RGB.blue)
+
+        self.rect = self.image.get_rect()
+
+        self.change_x = 0
+        self.change_y = 0
+
+    pass
 
 def Controls():
     for event in pygame.event.get():

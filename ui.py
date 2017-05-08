@@ -1,4 +1,4 @@
-import pygame, objects
+import pygame
 
 class ScrRes:
     def __init__(self,x,y):
