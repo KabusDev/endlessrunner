@@ -1,5 +1,5 @@
 import pygame, sys
-import ui
+import objects
 
 
 
@@ -9,11 +9,9 @@ def Controls():
 
         # if ui.test is True:
         if event.type == pygame.KEYDOWN:
-            if pressed[pygame.K_KP_ENTER]:
-                ui.game_event = True
-
-            if pressed[pygame.K_a]:
-                ui.game_event = False
+            if event.key == pygame.K_SPACE:
+                print("player jump")
+                # todo write jumping for sprite
 
         if event.type == pygame.QUIT:
             sys.exit()
