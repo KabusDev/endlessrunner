@@ -14,8 +14,8 @@ sxga = ScrRes(1280, 1024)
 # hopefully going to have a menu where players can change settings, customised skeleton?
 # using this style of class so that i can get seperate ints for modification
 
-res_x = sxga.x
-res_y = sxga.y
+res_x = svga.x
+res_y = svga.y
 res_var = (res_x, res_y)
 
 resolution = res_var # this will change in settings
@@ -37,14 +37,15 @@ menu_check = True
 def collision(self, point):
     return self.rect.collision(point)
 
-class Buttons():
+class Rect():
     def __init__(self, surface, color, xy_loc):
         self.surface = surface
         self.color = color
         self.xy_loc = xy_loc
 # make all rectangles scale to res
-scr_button = Buttons(screen, RGB.black, (res_x/4, res_y/8, res_x/2, res_y/4))
-scr_overlay = Buttons(screen, RGB.blackA, (0, 0, res_x, res_y))
+scr_button_1 = Rect(screen, RGB.black, (res_x/4, res_y/8, res_x/2, res_y/5))
+scr_button_2 = Rect(screen, RGB.blue, (res_x/4, res_y/1.5, res_x/2, res_y/5))
+scr_overlay = Rect(screen, RGB.blackA, (0, 0, res_x, res_y))
 
 
 def MainMenu():
@@ -56,7 +57,8 @@ def PauseMenu():
 
 def GameScreen():
     # pygame.draw.rect(screen, RGB.blue, (0, 0, 20, 20)) # debug box
-    pygame.draw.rect(scr_button.surface, scr_button.color, scr_button.xy_loc)
+    pygame.draw.rect(scr_button_1.surface, scr_button_1.color, scr_button_1.xy_loc)
+    pygame.draw.rect(scr_button_2.surface, scr_button_2.color, scr_button_2.xy_loc)
 
 def render(screen):
     if menu_check is True:
