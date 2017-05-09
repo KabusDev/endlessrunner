@@ -1,4 +1,5 @@
-import pygame, sys
+import pygame
+import sys
 import ui
 
 class Player(pygame.sprite.Sprite):
@@ -43,6 +44,7 @@ def Controls():
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 player.jump()
+                print("player jump")
                 # todo write jumping for sprite
 
             if event.key == pygame.K_ESCAPE:
