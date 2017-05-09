@@ -36,6 +36,8 @@ class Player(pygame.sprite.Sprite):
         self.gravity_check()
         self.rect.y += self.pos_y
 
+
+
 def Controls():
     player = Player()
     for event in pygame.event.get():
