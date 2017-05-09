@@ -1,4 +1,4 @@
-import pygame
+import pygame, game
 
 class ScrRes:
     def __init__(self, x, y):
@@ -33,20 +33,22 @@ class RGB:  # class for colors
 
 menu_check = True
 
-class MainMenu():
+def collision(self, point):
+    return self.rect.collision(point)
+
+def MainMenu():
     pass
 
-class PauseMenu():
+def PauseMenu():
     pass
 
-class GameScreen():
-    pass
+def GameScreen():
+    pygame.draw.rect(screen, RGB.blue, (0, 0, 20, 20))
 
 def render(screen):
     if menu_check is True:
         #main menu
-        pygame.draw.rect(screen, RGB.blue, (0, 0, 20, 20))
-
+        GameScreen()
     if menu_check is False:
         pygame.draw.rect(screen, RGB.black, (0, 0, 40, 40))
         # this is how i will switch from a menu to the game

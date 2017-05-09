@@ -8,7 +8,8 @@ fps_counter = clock.get_fps()
 pygame.display.set_caption('Endless Runner')
 
 def update(dt):
-    # TODO: update logic stuff
+
+
     pass
 
 # main loop
@@ -18,7 +19,7 @@ while True:
     game.Controls()
 
     update(dt)
-
+    game.Logic()
     ui.screen.fill(ui.RGB.white)  # redundant fill just incase ui doesnt change background fill of screen colour
     ui.render(ui.screen)
     pygame.display.flip()
