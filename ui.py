@@ -33,15 +33,24 @@ class RGB:  # class for colors
 
 menu_check = True
 
+class MainMenu():
+    pass
+
+class PauseMenu():
+    pass
+
 class GameScreen():
     pass
 
 def render(screen):
     if menu_check is True:
+        #main menu
         pygame.draw.rect(screen, RGB.blue, (0, 0, 20, 20))
+
     if menu_check is False:
         pygame.draw.rect(screen, RGB.black, (0, 0, 40, 40))
         # this is how i will switch from a menu to the game
-        # menu doesnt have to be a thing, more of a test of capabilities than a specification
+        # menu doesnt have to be implemented, more of a test of capabilities than a specification
+
     pass
 
