@@ -1,4 +1,6 @@
 import pygame
+import game
+
 
 class ScrRes:
     def __init__(self, x, y):
@@ -25,6 +27,7 @@ resolution = res_var # this will change in settings
 
 screen = pygame.display.set_mode(resolution)
 
+
 class RGB:  # class for colors
     white = (255, 255, 255)
     black = (0, 0, 0)
@@ -34,41 +37,48 @@ class RGB:  # class for colors
 
 menu_check = True
 
+
 def collision(self, point):
     return self.rect.collision(point)
 
-class Rect():
+
+class Rect:
     def __init__(self, surface, color, xy_loc):
         self.surface = surface
         self.color = color
         self.xy_loc = xy_loc
+
 # make all rectangles scale to res
 scr_button_1 = Rect(screen, RGB.black, (res_x/4, res_y/8, res_x/2, res_y/5))
 scr_button_2 = Rect(screen, RGB.blue, (res_x/4, res_y/1.5, res_x/2, res_y/5))
 scr_overlay = Rect(screen, RGB.blackA, (0, 0, res_x, res_y))
 
 
-def MainMenu():
-
-    pass
-
-def PauseMenu():
-    pass
-
-def GameScreen():
-    # pygame.draw.rect(screen, RGB.blue, (0, 0, 20, 20)) # debug box
+def main_menu():
     pygame.draw.rect(scr_button_1.surface, scr_button_1.color, scr_button_1.xy_loc)
     pygame.draw.rect(scr_button_2.surface, scr_button_2.color, scr_button_2.xy_loc)
+    pass
+
+
+def pause_menu():
+    pass
+
+
+def game_screen():
+    # game.Level.draw()
+    # pygame.draw.rect(screen, RGB.blue, (0, 0, 20, 20)) # debug box
+    pass
+
 
 def render(screen):
     if menu_check is True:
-        #main menu
-        GameScreen()
+        # main menu
+        main_menu()
 
     if menu_check is False:
-        pygame.draw.rect(screen, RGB.black, (0, 0, 40, 40))
+        game_screen()
+
         # this is how i will switch from a menu to the game
         # menu doesnt have to be implemented, more of a test of capabilities than a specification
 
     pass
-

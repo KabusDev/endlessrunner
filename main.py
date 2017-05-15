@@ -8,9 +8,10 @@ fps_counter = clock.get_fps()
 
 pygame.display.set_caption('Endless Runner')
 
+
 def update(dt):
-    game.Logic()
-    game.Controls()
+    game.logic()
+    game.controls()
     pass
 
 # main loop
