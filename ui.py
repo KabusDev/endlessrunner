@@ -2,7 +2,7 @@ import pygame
 import game
 
 menu_check = True
-pause_check = True
+pause_check = False
 
 class ScrRes:
     def __init__(self, x, y):
@@ -23,7 +23,7 @@ res_x = svga.x
 res_y = svga.y
 res_var = (res_x, res_y)
 
-resolution = res_var # this will change in settings
+resolution = res_var  # this will change in settings
 
 # have checks for certain scales on existing assets and change them;
 # to higher res assets if certain resolutions make them look low quality?
@@ -79,6 +79,8 @@ def render(screen):
         game_screen()
         # this is how i will switch from a menu to the game
         # menu doesnt have to be implemented, more of a test of capabilities than a specification
+    if pause_check is True:
+        pause_menu()
     pass
 
 
@@ -86,7 +88,4 @@ def ui_start_game():
     global menu_check
     if menu_check is True:
         menu_check = False
-    else:
-        # shouldn't trigger but redudnacies just incase somethin breaks
-        pass
     pass

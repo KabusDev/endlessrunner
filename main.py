@@ -13,7 +13,6 @@ pygame.display.set_caption('Endless Runner')
 
 def update(dt):
     game.logic()
-    controls.click_detect()
     controls.controls()
     pass
 

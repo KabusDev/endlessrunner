@@ -3,21 +3,6 @@ import ui
 # import game
 import sys
 
-def click_detect():
-    for event in pygame.event.get():
-
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            mouse_pos = event.pos
-            click = event.button
-            if click == 1:
-                if ui.menu_check is True:
-                    if ui.play_button.collidepoint(mouse_pos): # pycharm whining, still functions correctly
-                        ui.ui_start_game()
-                        print("start")
-                else:
-                    pass
-    pass
-
 
 def controls():
     for event in pygame.event.get():
@@ -31,8 +16,26 @@ def controls():
                 pass
 
             if event.key == pygame.K_ESCAPE:
-                print("pause menu")
-                # todo write pause
-                pass
+                if ui.menu_check is True:
+                    sys.exit()
+                if ui.menu_check is False:
+                    if ui.pause_check is False:
+                        ui.pause_check = True
+                    else:
+                        ui.pause_check = False
+                    pass
+                else:
+                    pass
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_pos = event.pos
+            click = event.button
+            if click == 1:
+                if ui.menu_check is True:
+                    if ui.play_button.collidepoint(mouse_pos): # pycharm whining, still functions correctly
+                        ui.ui_start_game()
+                        print("start")
+                else:
+                    pass
         if event.type == pygame.QUIT:
             sys.exit()
