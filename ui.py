@@ -1,8 +1,12 @@
 import pygame
-import game
+# import game
 
+# variables & other stuff
+pygame.font.init()
 menu_check = True
 pause_check = False
+fps_check = False
+
 
 class ScrRes:
     def __init__(self, x, y):
@@ -23,6 +27,9 @@ res_x = svga.x
 res_y = svga.y
 res_var = (res_x, res_y)
 
+basic_scale_var = (res_x * res_y / 10000)
+# print(basic_scale_var) # hack way of getting scaling for text?
+
 resolution = res_var  # this will change in settings
 
 # have checks for certain scales on existing assets and change them;
@@ -37,6 +44,9 @@ class RGB:  # class for colors
     blue = (0, 0, 255)
     red = (255, 0, 0)
     black_alpha = (0, 0, 0, 65)
+    grey = (178, 178, 178)
+
+Font_Basic = pygame.font.SysFont("Calibri", 45, False, False)
 
 
 class Rect:
@@ -46,21 +56,25 @@ class Rect:
         self.xy_loc = xy_loc
 
 # make all rectangles scale to res
-scr_button_1 = Rect(screen, RGB.black, (res_x/4, res_y/8, res_x/2, res_y/5))
-scr_button_2 = Rect(screen, RGB.blue, (res_x/4, res_y/1.5, res_x/2, res_y/5))
+# i could use some vars from here for other applications eg text alignment.
+scr_button_1 = Rect(screen, RGB.blue, (res_x/4, res_y/8, res_x/2, res_y/5))
+scr_button_2 = Rect(screen, RGB.black, (res_x/4, res_y/1.5, res_x/2, res_y/5))
 scr_overlay = Rect(screen, RGB.black_alpha, (0, 0, res_x, res_y))
 
 
 def main_menu():
     global play_button, quit_button
     play_button = pygame.draw.rect(scr_button_1.surface, scr_button_1.color, scr_button_1.xy_loc)
+
     quit_button = pygame.draw.rect(scr_button_2.surface, scr_button_2.color, scr_button_2.xy_loc)
     pass
 
 
 def pause_menu():
-    global background_menu
+    global continue_button, menu_button
     background_menu = pygame.draw.rect(scr_overlay.surface, scr_overlay.color, scr_overlay.xy_loc)
+    continue_button = pygame.draw.rect(scr_button_1.surface, scr_button_1.color, scr_button_1.xy_loc)
+    menu_button = pygame.draw.rect(scr_button_2.surface, scr_button_1.color, scr_button_2.xy_loc)
     pass
 
 
@@ -70,7 +84,17 @@ def game_screen():
     pass
 
 
+def fps(self):
+    pass
+
+
+class Block(pygame.sprite.Sprite):
+    pass
+
+
 def render(screen):
+    # if fps_check is True:
+    #     fps()
     if menu_check is True:
         # main menu
         main_menu()
@@ -79,6 +103,7 @@ def render(screen):
         game_screen()
         # this is how i will switch from a menu to the game
         # menu doesnt have to be implemented, more of a test of capabilities than a specification
+
     if pause_check is True:
         pause_menu()
     pass
