@@ -1,7 +1,9 @@
 import pygame
 import ui
-# import game
+import game
 import sys
+
+player = game.Player
 
 
 def controls():

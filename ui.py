@@ -88,10 +88,6 @@ def fps(self):
     pass
 
 
-class Block(pygame.sprite.Sprite):
-    pass
-
-
 def render(screen):
     # if fps_check is True:
     #     fps()
