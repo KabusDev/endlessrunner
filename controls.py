@@ -3,7 +3,7 @@ import ui
 import game
 import sys
 
-player = game.Player
+player = game.Player()
 
 
 def controls():
@@ -12,21 +12,21 @@ def controls():
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                # player.jump()
-                if ui.menu_check is False:
-                    print("player jump")
+                if ui.menu_check is False and ui.pause_check is False:
+                    game.jump()
                     # todo write jumping for sprite
                 pass
 
             if event.key == pygame.K_ESCAPE:
-                if ui.menu_check is True: # quick way of quitting the game? might remove
+                if ui.menu_check is True:  # quick way of quitting the game? might remove
                     sys.exit()
-                if ui.menu_check is False: # stops pause from drawing on main menu
+
+                if ui.menu_check is False:  # stops pause from drawing on main menu
                     if ui.pause_check is False:
                         ui.pause_check = True
                         # have a method of pausing in-game loop but not main loop?
                     else:
-                        ui.pause_check = False # exit pause menu method
+                        ui.pause_check = False  # exit pause menu method
                     pass
                 else:
                     pass
@@ -44,7 +44,7 @@ def controls():
             click = event.button
             if click == 1:
                 if ui.menu_check is True:
-                    if ui.play_button.collidepoint(mouse_pos): # pycharm whining, still functions correctly
+                    if ui.play_button.collidepoint(mouse_pos):  # pycharm whining, still functions correctly
                         ui.ui_start_game()
                         print("start")
                     if ui.quit_button.collidepoint(mouse_pos):

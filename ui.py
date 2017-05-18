@@ -61,26 +61,42 @@ scr_button_1 = Rect(screen, RGB.blue, (res_x/4, res_y/8, res_x/2, res_y/5))
 scr_button_2 = Rect(screen, RGB.black, (res_x/4, res_y/1.5, res_x/2, res_y/5))
 scr_overlay = Rect(screen, RGB.black_alpha, (0, 0, res_x, res_y))
 
+level_box = Rect(screen, RGB.black, (0, res_y/1.25, res_x, res_y))
+
 
 def main_menu():
     global play_button, quit_button
-    play_button = pygame.draw.rect(scr_button_1.surface, scr_button_1.color, scr_button_1.xy_loc)
 
+    play_button = pygame.draw.rect(scr_button_1.surface, scr_button_1.color, scr_button_1.xy_loc)
     quit_button = pygame.draw.rect(scr_button_2.surface, scr_button_2.color, scr_button_2.xy_loc)
+
+    play_txt = Font_Basic.render("Play", 1, RGB.white, None)
+    quit_txt = Font_Basic.render("Quit", 1, RGB.red, None)
+
+    screen.blit(play_txt, (res_x / 2.25, res_y / 5.5))
+    screen.blit(quit_txt, (res_x / 2.25, res_y / 1.375))
+
     pass
 
 
 def pause_menu():
     global continue_button, menu_button
+
     background_menu = pygame.draw.rect(scr_overlay.surface, scr_overlay.color, scr_overlay.xy_loc)
     continue_button = pygame.draw.rect(scr_button_1.surface, scr_button_1.color, scr_button_1.xy_loc)
     menu_button = pygame.draw.rect(scr_button_2.surface, scr_button_1.color, scr_button_2.xy_loc)
+
+    continue_txt = Font_Basic.render("Resume", 1, RGB.white, None)
+    menu_txt = Font_Basic.render("Quit to Menu", 1, RGB.red, None)
+
+    screen.blit(continue_txt, (res_x / 2.5, res_y / 5.5))
+    screen.blit(menu_txt, (res_x / 2.8, res_y / 1.375))
     pass
 
 
 def game_screen():
-    # game.Level.draw()
     pygame.draw.rect(screen, RGB.blue, (0, 0, 20, 20))  # debug box
+    bounds = pygame.draw.rect(level_box.surface, level_box.color, level_box.xy_loc)
     pass
 
 
