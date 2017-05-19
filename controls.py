@@ -3,7 +3,7 @@ import ui
 import game
 import sys
 
-player = game.Player()
+player = game.Player
 
 
 def controls():
@@ -13,8 +13,7 @@ def controls():
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 if ui.menu_check is False and ui.pause_check is False:
-                    game.jump()
-                    # todo write jumping for sprite
+                    ui.ply.jump()
                 pass
 
             if event.key == pygame.K_ESCAPE:

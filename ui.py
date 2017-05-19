@@ -1,41 +1,13 @@
 import pygame
-# import game
+import game
+import res
 
 # variables & other stuff
 pygame.font.init()
 menu_check = True
 pause_check = False
 fps_check = False
-
-
-class ScrRes:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-
-svga = ScrRes(800, 600)
-xga = ScrRes(1024, 768)
-hdready = ScrRes(1280, 720)
-sxga = ScrRes(1280, 1024)
-
-# players wont see the var names, only the units for the res
-# hopefully going to have a menu where players can change settings, customised skeleton?
-# using this style of class so that i can get seperate ints for modification
-# probably too much work
-
-res_x = svga.x
-res_y = svga.y
-res_var = (res_x, res_y)
-
-basic_scale_var = (res_x * res_y / 10000)
-# print(basic_scale_var) # hack way of getting scaling for text?
-
-resolution = res_var  # this will change in settings
-
-# have checks for certain scales on existing assets and change them;
-# to higher res assets if certain resolutions make them look low quality?
-
-screen = pygame.display.set_mode(resolution)
+ply = game.Player()
 
 
 class RGB:  # class for colors
@@ -57,11 +29,10 @@ class Rect:
 
 # make all rectangles scale to res
 # i could use some vars from here for other applications eg text alignment.
-scr_button_1 = Rect(screen, RGB.blue, (res_x/4, res_y/8, res_x/2, res_y/5))
-scr_button_2 = Rect(screen, RGB.black, (res_x/4, res_y/1.5, res_x/2, res_y/5))
-scr_overlay = Rect(screen, RGB.black_alpha, (0, 0, res_x, res_y))
-
-level_box = Rect(screen, RGB.black, (0, res_y/1.25, res_x, res_y))
+scr_button_1 = Rect(res.screen, RGB.blue, (res.res_x/4, res.res_y/8, res.res_x/2, res.res_y/5))
+scr_button_2 = Rect(res.screen, RGB.black, (res.res_x/4, res.res_y/1.5, res.res_x/2, res.res_y/5))
+scr_overlay = Rect(res.screen, RGB.black_alpha, (0, 0, res.res_x, res.res_y))
+level_box = Rect(res.screen, RGB.black, (0, res.res_y/1.25, res.res_x, res.res_y))
 
 
 def main_menu():
@@ -73,8 +44,8 @@ def main_menu():
     play_txt = Font_Basic.render("Play", 1, RGB.white, None)
     quit_txt = Font_Basic.render("Quit", 1, RGB.red, None)
 
-    screen.blit(play_txt, (res_x / 2.25, res_y / 5.5))
-    screen.blit(quit_txt, (res_x / 2.25, res_y / 1.375))
+    res.screen.blit(play_txt, (res.res_x / 2.25, res.res_y / 5.5))
+    res.screen.blit(quit_txt, (res.res_x / 2.25, res.res_y / 1.375))
 
     pass
 
@@ -89,13 +60,15 @@ def pause_menu():
     continue_txt = Font_Basic.render("Resume", 1, RGB.white, None)
     menu_txt = Font_Basic.render("Quit to Menu", 1, RGB.red, None)
 
-    screen.blit(continue_txt, (res_x / 2.5, res_y / 5.5))
-    screen.blit(menu_txt, (res_x / 2.8, res_y / 1.375))
+    res.screen.blit(continue_txt, (res.res_x / 2.5, res.res_y / 5.5))
+    res.screen.blit(menu_txt, (res.res_x / 2.8, res.res_y / 1.375))
     pass
 
 
 def game_screen():
-    pygame.draw.rect(screen, RGB.blue, (0, 0, 20, 20))  # debug box
+    global bounds
+    ply.player_appearance()
+    # pygame.draw.rect(res.screen, RGB.blue, (0, 0, 20, 20))  # debug box
     bounds = pygame.draw.rect(level_box.surface, level_box.color, level_box.xy_loc)
     pass
 
