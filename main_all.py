@@ -113,22 +113,27 @@ class Player():
         self.is_jumping = True  # jump trigger
 
     def logic_update(self):
+        global f
+        # time.sleep(0.5)
         # force calculation 0.5 * mass * velocity^2.
         if self.is_jumping is True:
-            if self.force > 0:
-                f = (0.5 * self.mass * (self.force * self.force))
-            else:
+            if self.force >= 0:
                 f = -(0.5 * self.mass * (self.force * self.force))
+            else:
+                f = (0.5 * self.mass * (self.force * self.force))
             self.loc_y = self.loc_y + f
             self.force = self.force - 1
 
-            if self.loc_y >= 650:
-                self.loc_y = 450 # need a better way of going down, use else part of force > 0 ?
+            if self.loc_y >= 450:
+                self.loc_y = 450
                 self.is_jumping = False
                 self.force = 8
 
-        print("force ",self.force)
-        print("loc ",self.loc_y)
+            # print(f)
+            # print("force ", self.force)
+            # print("loc ", self.loc_y)
+
+
 ply = Player()
 
 def controls():
@@ -194,7 +199,6 @@ def render(screen):
     #     fps()
     render_logic()
     pygame.display.flip()
-    time.sleep(0.03)
 
 
 def ui_start_game():
@@ -206,7 +210,6 @@ def ui_start_game():
 
 def update():
     ply.logic_update()
-    time.sleep(0.02)
     controls()
     render(screen)
     pass
