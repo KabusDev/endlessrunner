@@ -89,15 +89,17 @@ def pause_menu():
     pass
 
 
-def collision_detect(self, sprite):
-    return self.rect.colliderect(sprite.rect)
-
 def game_screen():
     global bounds
     player_ball = pygame.draw.circle(screen, RGB.black, (round(ply.loc_x), round(ply.loc_y)), 30)
     # pygame.draw.rect(screen, RGB.blue, (0, 0, 20, 20))  # debug box
-    bounds = pygame.draw.rect(level_box.surface, level_box.color, level_box.xy_loc)
+    bounds = pygame.draw.rect(level_box.surface, level_box.color, level_box.xy_loc) # constant
     pass
+
+
+def collision_detect(self, sprite):
+    return self.rect.colliderect(sprite.rect)
+
 
 class Player():
     is_jumping = False
@@ -114,7 +116,8 @@ class Player():
 
     def logic_update(self):
         global f
-        # time.sleep(0.5)
+        # time.sleep(0.5) # debug timer for prints
+
         # force calculation 0.5 * mass * velocity^2.
         if self.is_jumping is True:
             if self.force >= 0:
@@ -134,7 +137,22 @@ class Player():
             # print("loc ", self.loc_y)
 
 
+class WorldGen:
+    # shifting the world
+    # use predefined obstacle patterns and apply patterns procedurally
+    # todo need function for detecting collisions between ply and obstacles
+    # todo gameover screen
+
+
+    pass
+
+
+class Obstacles():
+    pass
+
+
 ply = Player()
+
 
 def controls():
     for event in pygame.event.get():
@@ -183,6 +201,7 @@ def controls():
         if event.type == pygame.QUIT:
             sys.exit()
 
+
 def render_logic():
     if menu_check is True:
         # main menu
@@ -193,6 +212,7 @@ def render_logic():
 
     if pause_check is True:
         pause_menu()
+
 
 def render(screen):
     # if fps_check is True:
