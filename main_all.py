@@ -10,6 +10,7 @@ pygame.display.set_caption('Endless Runner')
 pygame.font.init()
 menu_check = True
 pause_check = False
+ply_dead = False
 fps_check = False
 
 
@@ -29,7 +30,6 @@ res_var = (res_x, res_y)
 
 scale_var = (res_x * res_y / 10000)/2
 res_scale = round(scale_var)
-print(res_scale)  # hack way of getting scaling for text?
 
 resolution = res_var  # this will change in settings
 screen = pygame.display.set_mode(resolution, pygame.HWSURFACE)
@@ -41,7 +41,7 @@ class RGB:  # class for colors
     black = (0, 0, 0)
     blue = (0, 0, 255)
     red = (255, 0, 0)
-    black_alpha = (0, 0, 0, 65)
+    black_alpha = (0, 0, 0, 65) # alpha doesnt work
     grey = (178, 178, 178)
 
 Font_Basic = pygame.font.SysFont("Calibri", 45, False, False)
@@ -65,7 +65,7 @@ def collision_detect(self, sprite):
     return self.rect.colliderect(sprite.rect)
 
 
-class Player():
+class Player:
     is_jumping = False
     # self.loc_x = round(res_x / 7)
     # self.loc_y = round(res_y / 1.31)
@@ -102,8 +102,6 @@ class Player():
 
 
 class WorldGen:
-
-    # todo del from file
     # shifting the world
     # use predefined obstacle patterns and apply patterns procedurally?
     # todo need function for detecting collisions between ply and obstacles
@@ -117,26 +115,42 @@ class WorldGen:
         self.x_1 = 400
         self.x_2 = 700
         self.x_3 = 1100
+        # these will get modified for procedural gen
         self.speed_var = 10 # this will be used to change acceleration speed of obstacles
 
+    def procedural_gen(self):
+        pass
+
     def obstacle_obj(self):
+        global triangle, triangle2, triangle3
 
-        triangle = pygame.draw.polygon(screen, RGB.blue,
-                                      (((self.x_1-50), res_y / 1.25),
-                                       (self.x_1, res_y / 1.5),
-                                       ((self.x_1+50), res_y / 1.25)))
+        triangle = pygame.draw.polygon(
+            screen, RGB.blue,
+            (((self.x_1-50), res_y / 1.25),
+             (self.x_1, res_y / 1.5),
+             ((self.x_1+50), res_y / 1.25))
+        )
 
-        triangle2 = pygame.draw.polygon(screen, RGB.blue,
-                                        (((self.x_2 - 50), res_y / 1.25),
-                                         (self.x_2, res_y / 1.5),
-                                         ((self.x_2 + 50), res_y / 1.25)))
+        triangle2 = pygame.draw.polygon(
+            screen, RGB.blue,
+            (((self.x_2 - 50), res_y / 1.25),
+             (self.x_2, res_y / 1.5),
+             ((self.x_2 + 50), res_y / 1.25))
+        )
 
-        triangle3 = pygame.draw.polygon(screen, RGB.blue,
-                                        (((self.x_3 - 50), res_y / 1.25),
-                                         (self.x_3, res_y / 1.5),
-                                         ((self.x_3 + 50), res_y / 1.25)))
+        triangle3 = pygame.draw.polygon(
+            screen, RGB.blue,
+            (((self.x_3 - 50), res_y / 1.25),
+             (self.x_3, res_y / 1.5),
+             ((self.x_3 + 50), res_y / 1.25))
+        )
 
-
+        if triangle.collidepoint(ply.loc_x, ply.loc_y):
+            print("triangle 1 collision")
+        if triangle2.collidepoint(ply.loc_x, ply.loc_y):
+            print("triangle 2 collision")
+        if triangle3.collidepoint(ply.loc_x, ply.loc_y):
+            print("triangle 3 collision")
 
     # def world_shifter(self, shift_x):  # func for global shift in items, player is exempt
     #     self.world_shift += shift_x  # global shifting, something
@@ -144,33 +158,30 @@ class WorldGen:
     #     for obstacle in self.obstacle_group:
     #         obstacle.rect.x += shift_x
 
-        # todo powerup stuff later
+
         pass
 
+    # todo power up stuff later
+
     def world_update(self):
+        global triangle
         # print (self.x_1)
 
         self.x_1 -= self.speed_var
         self.x_2 -= self.speed_var
         self.x_3 -= self.speed_var
 
-        if self.x_1*1.2 <= -250:
-            self.x_1 = 850
-        if self.x_2*1.2 <= -250:
-            self.x_2 = 850
-        if self.x_3*1.2 <= -250:
-            self.x_3 = 850
+        end_x = -250
+        start_x = 850
+
+        if self.x_1*1.2 <= end_x:
+            self.x_1 = start_x
+        if self.x_2*1.2 <= end_x:
+            self.x_2 = start_x
+        if self.x_3*1.2 <= end_x:
+            self.x_3 = start_x
+        # can this be better?
         pass
-    pass
-
-
-class Obstacles():
-    # do polygons that change on x axis for horizontal movement to simulate level progression?
-    # y should be static, x should be dynamically changed, use modifier from one int var?
-
-    # x as centre, (x*.5,res_y/1.25), (x,res_y/1.5), (x*1.5,res_y/1.25) ?
-    # x would have to have about 50~ pixels in between?, should be equilateral
-    # something like this for placements of obstacles
     pass
 
 
@@ -212,6 +223,20 @@ def game_screen():
     player_ball = pygame.draw.circle(screen, RGB.black, (round(ply.loc_x), round(ply.loc_y)), 30)
     bounds = pygame.draw.rect(level_box.surface, level_box.color, level_box.xy_loc)  # constant
     world.obstacle_obj()
+    pass
+
+
+def game_over():
+    background_menu = pygame.draw.rect(scr_overlay.surface, scr_overlay.color, scr_overlay.xy_loc)
+    continue_button = pygame.draw.rect(scr_button_1.surface, scr_button_1.color, scr_button_1.xy_loc)
+    menu_button = pygame.draw.rect(scr_button_2.surface, scr_button_1.color, scr_button_2.xy_loc)
+
+    continue_txt = Font_Basic.render("Restart", 1, RGB.white, None)
+    menu_txt = Font_Basic.render("Quit to Menu", 1, RGB.red, None)
+
+    screen.blit(continue_txt, (res_x / 2.5, res_y / 5.5))
+    screen.blit(menu_txt, (res_x / 2.8, res_y / 1.375))
+    # this is just a clone of the pause screen,
     pass
 
 
@@ -274,6 +299,9 @@ def render_logic():
     if pause_check is True:
         pause_menu()
 
+    if ply_dead is True:
+        game_over()
+
 
 def render(screen):
     # if fps_check is True:
@@ -289,11 +317,21 @@ def ui_start_game():
     pass
 
 
+def game_pause():
+    if pause_check is True:
+        world.speed_var = 0
+    if pause_check is False:
+        world.speed_var = 10
+        # will replace this
+        pass
+
+
 def update():
     world.world_update()
     ply.logic_update()
     controls()
     render(screen)
+    game_pause()
     pass
 
 
