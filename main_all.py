@@ -49,6 +49,8 @@ class RGB:  # class for colors
     black_alpha = (0, 0, 0, 65) # alpha doesnt work
     grey = (178, 178, 178)
 
+background = RGB.white
+
 Font_Basic = pygame.font.SysFont("Calibri", 45, False, False)
 
 
@@ -187,9 +189,9 @@ class Points():
     # collide_1.fill((0, 0, 0))
 
     def collisions(self):
-        collide_1 = pygame.draw.rect(screen, RGB.red, (world.x_1-60, 270, 120, 250))
-        collide_2 = pygame.draw.rect(screen, RGB.red, (world.x_2 - 60, 270, 120, 250))
-        collide_3 = pygame.draw.rect(screen, RGB.red, (world.x_3 - 60, 270, 120, 250))
+        collide_1 = pygame.draw.rect(screen, background, (world.x_1-60, 270, 120, 250))
+        collide_2 = pygame.draw.rect(screen, background, (world.x_2 - 60, 270, 120, 250))
+        collide_3 = pygame.draw.rect(screen, background, (world.x_3 - 60, 270, 120, 250))
 
         if collide_1.collidepoint(ply.loc_x, ply.loc_y):
             self.point_tick += 1
@@ -229,12 +231,12 @@ def main_menu():
 def pause_menu():
     global continue_button, menu_button
 
-    background_menu = pygame.draw.rect(scr_overlay.surface, scr_overlay.color, scr_overlay.xy_loc)
-    continue_button = pygame.draw.rect(scr_button_1.surface, scr_button_1.color, scr_button_1.xy_loc)
-    menu_button = pygame.draw.rect(scr_button_2.surface, scr_button_1.color, scr_button_2.xy_loc)
+    background_menu = pygame.draw.rect(scr_overlay.surface, RGB.grey, scr_overlay.xy_loc)
+    continue_button = pygame.draw.rect(scr_button_1.surface, RGB.green, scr_button_1.xy_loc)
+    menu_button = pygame.draw.rect(scr_button_2.surface, RGB.red, scr_button_2.xy_loc)
 
-    continue_txt = Font_Basic.render("Resume", 1, RGB.white, None)
-    menu_txt = Font_Basic.render("Quit to Menu", 1, RGB.red, None)
+    continue_txt = Font_Basic.render("Resume", 1, RGB.black, None)
+    menu_txt = Font_Basic.render("Quit to Menu", 1, RGB.black, None)
 
     screen.blit(continue_txt, (res_x / 2.5, res_y / 5.5))
     screen.blit(menu_txt, (res_x / 2.8, res_y / 1.375))
@@ -242,10 +244,10 @@ def pause_menu():
 
 
 def game_screen():
+    points.collisions()
     player_ball = pygame.draw.circle(screen, RGB.black, (round(ply.loc_x), round(ply.loc_y)), 30)
     bounds = pygame.draw.rect(level_box.surface, level_box.color, level_box.xy_loc)  # constant
     # hp_bar = pygame.draw.rect(screen, RGB.green, )
-    points.collisions()
     world.obstacle_obj()
     score = Font_Basic.render(str(points.points), 1, RGB.black, None)
     screen.blit(score, (0, 0))
@@ -255,14 +257,14 @@ def game_screen():
 
 def game_over():
     global reset_button, menu_button2
-    background_menu = pygame.draw.rect(scr_overlay.surface, scr_overlay.color, scr_overlay.xy_loc)
-    reset_button = pygame.draw.rect(scr_button_1.surface, scr_button_1.color, scr_button_1.xy_loc)
-    menu_button2 = pygame.draw.rect(scr_button_2.surface, scr_button_1.color, scr_button_2.xy_loc)
+    background_menu = pygame.draw.rect(scr_overlay.surface, RGB.black, scr_overlay.xy_loc)
+    reset_button = pygame.draw.rect(scr_button_1.surface, RGB.green, scr_button_1.xy_loc)
+    menu_button2 = pygame.draw.rect(scr_button_2.surface, RGB.red, scr_button_2.xy_loc)
 
-    reset_txt = Font_Basic.render("Retry", 1, RGB.white, None)
-    menu_txt = Font_Basic.render("Quit to Menu", 1, RGB.red, None)
+    reset_txt = Font_Basic.render("Retry", 1, RGB.black, None)
+    menu_txt = Font_Basic.render("Quit to Menu", 1, RGB.black, None)
 
-    screen.blit(reset_txt, (res_x / 2.5, res_y / 5.5))
+    screen.blit(reset_txt, (res_x / 2.3, res_y / 5.5))
     screen.blit(menu_txt, (res_x / 2.8, res_y / 1.375))
     # this is just a clone of the pause screen,
     pass
@@ -308,7 +310,6 @@ def controls():
                     if continue_button.collidepoint(mouse_pos):
                         pause_check = False
                     if menu_button.collidepoint(mouse_pos):
-                        print("test")
                         menu_check = True
                         pause_check = False
                 if ply_dead is True:
@@ -383,4 +384,4 @@ while True:
     fps_counter = clock.get_fps()
     # print(fps_counter)
     update()
-    screen.fill(RGB.white)  # redundant fill just in case ui doesnt change background fill of screen colour
+    screen.fill(background)  # redundant fill just in case ui doesnt change background fill of screen colour
