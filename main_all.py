@@ -101,8 +101,6 @@ class Player:
 class WorldGen:
     # shifting the world
     # use predefined obstacle patterns and apply patterns procedurally?
-    # todo need function for detecting collisions between ply and obstacles
-    # todo game over screen
 
     def __init__(self):
         self.obstacle_group = pygame.sprite.Group()
@@ -180,6 +178,39 @@ ply = Player()
 world = WorldGen()
 
 
+class Points():
+    def __init__(self):
+        self.point_tick = 0
+        self.points = 0
+    # collide_1 = pygame.Surface((120, 250))
+    # collide_1.set_alpha(200)
+    # collide_1.fill((0, 0, 0))
+
+    def collisions(self):
+        collide_1 = pygame.draw.rect(screen, RGB.red, (world.x_1-60, 270, 120, 250))
+        collide_2 = pygame.draw.rect(screen, RGB.red, (world.x_2 - 60, 270, 120, 250))
+        collide_3 = pygame.draw.rect(screen, RGB.red, (world.x_3 - 60, 270, 120, 250))
+
+        if collide_1.collidepoint(ply.loc_x, ply.loc_y):
+            self.point_tick += 1
+        if collide_2.collidepoint(ply.loc_x, ply.loc_y):
+            self.point_tick += 1
+        if collide_3.collidepoint(ply.loc_x, ply.loc_y):
+            self.point_tick += 1
+
+        if self.point_tick == 4:  # horrible
+            # bad but necessary for effect
+            self.point_tick = 0
+            self.points += 1
+
+    def reset(self):
+        self.points = 0
+points = Points()
+
+def global_reset():
+    world.reset()
+    points.reset()
+
 def main_menu():
     global play_button, quit_button
 
@@ -214,7 +245,11 @@ def game_screen():
     player_ball = pygame.draw.circle(screen, RGB.black, (round(ply.loc_x), round(ply.loc_y)), 30)
     bounds = pygame.draw.rect(level_box.surface, level_box.color, level_box.xy_loc)  # constant
     # hp_bar = pygame.draw.rect(screen, RGB.green, )
+    points.collisions()
     world.obstacle_obj()
+    score = Font_Basic.render(str(points.points), 1, RGB.black, None)
+    screen.blit(score, (0, 0))
+    # screen.blit(points.collide_1, (world.x_1-60, 270))
     pass
 
 
@@ -264,7 +299,7 @@ def controls():
             if click == 1:
                 if menu_check is True:
                     if play_button.collidepoint(mouse_pos):  # pycharm whining, still functions correctly
-                        world.reset()
+                        global_reset()
                         ui_start_game()
                         print("start")
                     if quit_button.collidepoint(mouse_pos):
@@ -277,10 +312,12 @@ def controls():
                         menu_check = True
                         pause_check = False
                 if ply_dead is True:
-                    world.reset()
+                    # cant put global reset here as points should show on game over screen.
                     if reset_button.collidepoint(mouse_pos):
+                        global_reset()
                         ply_dead = False
                     if menu_button2.collidepoint(mouse_pos):
+                        global_reset()
                         menu_check = True
                         ply_dead = False
 
