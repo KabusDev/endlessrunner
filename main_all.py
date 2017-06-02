@@ -1,7 +1,5 @@
 import pygame
 import sys
-import random
-# import time
 
 pygame.init()
 clock = pygame.time.Clock()
@@ -12,7 +10,6 @@ pygame.font.init()
 menu_check = True
 pause_check = False
 ply_dead = False
-
 
 class ScrRes:
     def __init__(self, x, y):
@@ -45,7 +42,7 @@ class RGB:  # class for colors
     yellow = (237, 242, 92)
     red = (242, 92, 92)
 
-    black_alpha = (0, 0, 0, 65) # alpha doesnt work
+    black_alpha = (0, 0, 0, 65)  # alpha doesnt work on draw.rect
     grey = (178, 178, 178)
 
 background = RGB.white
@@ -75,7 +72,6 @@ class Player:
     mass = 2
 
     def jump(self):
-        print("ply jump")  # debug
         self.is_jumping = True  # jump trigger
 
     def logic_update(self):
@@ -107,9 +103,9 @@ class WorldGen:
         self.world_shift = 0  # use this to move the world instead of blocks independently?
         self.x_1 = 800
         self.x_2 = 1100
-        self.x_3 = 1500 # initial spawns, off screen
+        self.x_3 = 1500  # initial spawns, off screen
         # these will get modified for procedural gen
-        self.speed_var = 10 # this will be used to change acceleration speed of obstacles
+        self.speed_var = 10  # this will be used to change acceleration speed of obstacles
 
     def obstacle_obj(self):
         global triangle, triangle2, triangle3, ply_dead
@@ -174,7 +170,7 @@ ply = Player()
 world = WorldGen()
 
 
-class Points():
+class Points:
     def __init__(self):
         self.point_tick = 0
         self.points = 0
@@ -266,6 +262,7 @@ def controls():
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 if menu_check is False and pause_check is False:
+                    print("ply jump")
                     ply.jump()
                 pass
 
@@ -291,7 +288,6 @@ def controls():
                     if play_button.collidepoint(mouse_pos):  # pycharm whining, still functions correctly
                         global_reset()
                         ui_start_game()
-                        print("start")
                     if quit_button.collidepoint(mouse_pos):
                         sys.exit()
                 if pause_check is True:
@@ -374,7 +370,5 @@ def update():
 while True:
     pygame.event.pump()
     dt = clock.tick(60) / 1000
-    fps_counter = clock.get_fps()
-    # print(fps_counter)
     update()
     screen.fill(background)  # redundant fill just in case ui doesnt change background fill of screen colour
