@@ -12,8 +12,7 @@ pygame.font.init()
 menu_check = True
 pause_check = False
 ply_dead = False
-fps_check = False
-reset_bool = False
+
 
 class ScrRes:
     def __init__(self, x, y):
@@ -70,8 +69,6 @@ level_box = Rect(screen, RGB.black, (0, res_y/1.25, res_x, res_y))
 
 class Player:
     is_jumping = False
-    # self.loc_x = round(res_x / 7)
-    # self.loc_y = round(res_y / 1.31)
     loc_x = 100
     loc_y = 450
     force = 8
@@ -149,26 +146,23 @@ class WorldGen:
     # todo power up stuff later
 
     def world_update(self):
-        global start_x_1, start_x_2, start_x_3
-        # print (self.x_1)
-
         self.x_1 -= self.speed_var
         self.x_2 -= self.speed_var
         self.x_3 -= self.speed_var
 
         end_x = -250
         start_x_1 = 850
-        start_x_2 = 850
+        start_x_2 = 850  # was using seperate variables to change positions via procedural method, abandoned
         start_x_3 = 850
 
-        if self.x_1*1.2 <= end_x:
+        if self.x_1*1.2 <= end_x:  # looping movement of obstacles
             self.x_1 = start_x_1
         if self.x_2*1.2 <= end_x:
             self.x_2 = start_x_2
         if self.x_3*1.2 <= end_x:
             self.x_3 = start_x_3
 
-    def reset(self):
+    def reset(self):  # reset func
         self.x_1 = 800
         self.x_2 = 1100
         self.x_3 = 1500
@@ -184,9 +178,6 @@ class Points():
     def __init__(self):
         self.point_tick = 0
         self.points = 0
-    # collide_1 = pygame.Surface((120, 250))
-    # collide_1.set_alpha(200)
-    # collide_1.fill((0, 0, 0))
 
     def collisions(self):
         collide_1 = pygame.draw.rect(screen, background, (world.x_1-60, 270, 120, 250))
@@ -201,7 +192,7 @@ class Points():
             self.point_tick += 1
 
         if self.point_tick == 4:  # horrible
-            # bad but necessary for effect
+            # bad but necessary for single points per obstacle jump
             self.point_tick = 0
             self.points += 1
 
@@ -209,9 +200,6 @@ class Points():
         self.points = 0
 points = Points()
 
-def global_reset():
-    world.reset()
-    points.reset()
 
 def main_menu():
     global play_button, quit_button
@@ -368,12 +356,17 @@ def game_pause():
         pass
 
 
+def global_reset():  # func for funcs, saves space on triggering resets, easy to add too ect
+    world.reset()
+    points.reset()
+
+
 def update():
     world.world_update()
     ply.logic_update()
     controls()
-    render(screen)
     game_pause()
+    render(screen)
     pass
 
 
