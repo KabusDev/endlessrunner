@@ -1,9 +1,13 @@
 import pygame
 import sys
+import os
+import psutil
+import math
 
 pygame.init()
 clock = pygame.time.Clock()
 pygame.display.set_caption('Endless Runner')
+
 
 # variables & other stuff
 pygame.font.init()
@@ -11,6 +15,9 @@ menu_check = True
 pause_check = False
 ply_dead = False
 
+fps_check = True
+
+fps = 60
 class ScrRes:
     def __init__(self, x, y):
         self.x = x
@@ -48,6 +55,7 @@ class RGB:  # class for colors
 background = RGB.white
 
 Font_Basic = pygame.font.SysFont("Calibri", 45, False, False)
+Font_Info = pygame.font.SysFont("Calibri", 20, False, False)
 
 
 class Rect:
@@ -254,6 +262,21 @@ def game_over():
     pass
 
 
+def fps():
+    # print(clock.get_fps())
+    pid = os.getpid()
+    py = psutil.Process(pid)
+    memory_use = py.memory_info()[0] * 0.000001  # memory use in mb, dodgy calculation conversion
+    memory_int = int(memory_use)
+    fps_int = int(clock.get_fps())
+
+    fps_txt = Font_Info.render(str(fps_int) + "FPS", 1, RGB.black)
+    mem_txt = Font_Info.render(str(memory_int) + "MB", 1, RGB.black)
+
+    screen.blit(fps_txt, (res_x-150, 0))
+    screen.blit(mem_txt, (res_x-150, 40))
+
+
 def controls():
     for event in pygame.event.get():
         pygame.key.get_pressed()
@@ -328,9 +351,10 @@ def render_logic():
 
 
 def render(screen):
-    # if fps_check is True:
-    #     fps()
+    if fps_check is True:
+        fps()
     render_logic()
+    fps()
     pygame.display.flip()
 
 
@@ -365,10 +389,10 @@ def update():
     render(screen)
     pass
 
-
 # main loop, may need changing for pause menu ect
 while True:
     pygame.event.pump()
-    dt = clock.tick(60) / 1000
+    dt = clock.tick(60)
     update()
     screen.fill(background)  # redundant fill just in case ui doesnt change background fill of screen colour
+
